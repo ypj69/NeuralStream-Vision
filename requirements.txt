@@ -7,4 +7,5 @@ tushare>=1.2.0
 rqdatac>=2.0.0
 streamlit>=1.22.0
 seaborn>=0.12.0
-fonttools>=4.38.0 
+fonttools>=4.38.0
+requests>=2.31.0 

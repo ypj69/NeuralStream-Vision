@@ -5,9 +5,9 @@ import os
 from datetime import datetime
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
-# 添加中文字体支持
-plt.rcParams['font.sans-serif'] = ['DejaVu Sans']  # 使用 DejaVu Sans 字体
-plt.rcParams['axes.unicode_minus'] = False  # 解决负号显示问题
+from font_config import setup_chinese_font
+# 设置中文字体
+setup_chinese_font()
 from genData import get_stock_data, preprocess_data, StockDataset, rsi, williams_r, emv, sma, obv, volume_change_rate, amount_change_rate, volume_ma, amount_ma, price_diff_features
 from StockFundamentals import StockFundamentals
 from new_mian import main
