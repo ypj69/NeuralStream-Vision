@@ -1,4 +1,7 @@
 import streamlit as st
+# 配置 Streamlit 页面必须是第一个 Streamlit 命令
+st.set_page_config(page_title="在线智能投资顾问", layout="wide")
+
 import pandas as pd
 import torch
 import os
@@ -16,9 +19,6 @@ from StockFundamentals import StockFundamentals
 from new_mian import main
 from bmodel import send_to_llm, continue_conversation  # 新增 continue_conversation 函数
 import seaborn as sns
-
-# 配置 Streamlit 页面
-st.set_page_config(page_title="在线智能投资顾问", layout="wide")
 
 # ---------------- 左侧参数栏 ----------------
 st.sidebar.title("参数设置")
