@@ -1,9 +1,22 @@
-torch>=2.0.0
-pandas>=1.5.0
-numpy>=1.21.0
-matplotlib>=3.5.0
-scikit-learn>=1.0.0
-tushare>=1.2.0
-rqdatac>=2.0.0
-streamlit>=1.22.0
-seaborn>=0.12.0 
+# 核心依赖
+torch==2.1.0
+pandas==1.5.3
+numpy==1.24.3
+matplotlib==3.7.1
+scikit-learn==1.2.2
+
+# 数据获取和处理
+tushare==1.2.89
+rqdatac==2.10.5
+requests==2.31.0
+
+# Web应用和可视化
+streamlit==1.22.0
+seaborn==0.12.2
+
+# 中文字体支持
+matplotlib-font-manager==0.9.0
+
+# 系统和工具
+python-dateutil==2.8.2
+pytz==2023.3 
