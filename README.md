@@ -1,7 +1,7 @@
-# FinRL_LLM - 基于深度学习的智能股票投资分析系统
+# NeuralStream-Vision - 基于深度学习的智能股票投资分析系统
 
 ## 项目简介
-FinRL_LLM 是一个结合深度学习和大语言模型的智能股票投资分析系统。该系统能够对股票进行技术面和基本面分析，生成专业的投资建议报告，并提供交互式的投资咨询服务。
+NeuralStream-Vision 是一个结合深度学习和大语言模型的智能股票投资分析系统。该系统能够对股票进行技术面和基本面分析，生成专业的投资建议报告，并提供交互式的投资咨询服务。
 
 ## 主要功能
 - **股票价格预测**：使用CNN-LSTM模型进行股票价格预测
@@ -21,8 +21,8 @@ FinRL_LLM 是一个结合深度学习和大语言模型的智能股票投资分�
 
 1. 克隆项目
 ```bash
-git clone https://github.com/yourusername/FinRL_LLM.git
-cd FinRL_LLM
+git clone https://github.com/ypj69/NeuralStream-Vision.git
+cd new_2
 ```
 
 2. 安装依赖
