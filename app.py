@@ -11,11 +11,8 @@ import matplotlib.dates as mdates
 from font_config import setup_chinese_font
 
 # 设置中文字体
-try:
-    if not setup_chinese_font():
-        st.warning("注意：中文字体加载失败，图表中的中文可能无法正常显示。请确保assets目录中包含所需的字体文件。")
-except Exception as e:
-    st.warning(f"注意：中文字体配置出错，图表中的中文可能无法正常显示。错误信息：{str(e)}")
+if not setup_chinese_font():
+    st.warning("注意：中文字体加载失败，图表中的中文可能无法正常显示。")
 
 from genData import get_stock_data, preprocess_data, StockDataset, rsi, williams_r, emv, sma, obv, volume_change_rate, amount_change_rate, volume_ma, amount_ma, price_diff_features
 from StockFundamentals import StockFundamentals

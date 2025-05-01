@@ -16,7 +16,7 @@ NeuralStream-Vision 是一个结合深度学习和大语言模型的智能股票
 - 支持多种技术指标和基本面指标
 - 使用Streamlit构建友好的Web界面
 - 结合大语言模型生成专业投资建议
-- 内置中文字体支持，确保图表正确显示
+- 内置动态字体加载，确保图表中文正确显示
 
 ## 安装说明
 
@@ -37,9 +37,9 @@ pip install -r requirements.txt
 - 在 `StockFundamentals.py` 中配置米筐API密钥
 
 4. 字体配置
-- 项目已内置思源黑体（Source Han Sans CN）字体文件
-- 字体文件位于 `assets` 目录中
-- 系统会自动加载字体文件以确保中文正确显示
+- 项目使用动态字体加载技术，无需手动配置字体文件
+- 字体数据已内置在代码中，自动处理中文显示
+- 支持在任何环境下正确显示中文，包括云端部署
 
 ## 使用方法
 
@@ -64,8 +64,7 @@ FinRL_LLM/
 ├── new_mian.py            # 深度学习模型主文件
 ├── StockFundamentals.py   # 基本面分析模块
 ├── font_config.py         # 中文字体配置模块
-├── assets/                # 静态资源目录
-│   └── SourceHanSansCN-Regular.otf  # 中文字体文件
+├── generate_font_base64.py # 字体Base64编码生成工具
 ├── requirements.txt       # 项目依赖
 └── README.md             # 项目说明文档
 ```
@@ -74,7 +73,7 @@ FinRL_LLM/
 - 使用前请确保已正确配置所有必要的API密钥
 - 建议使用GPU进行模型训练和预测
 - 请遵守相关API的使用条款和限制
-- 确保不要删除或修改assets目录中的字体文件
+- 系统会自动处理字体加载，无需手动配置字体文件
 
 ## 贡献指南
 欢迎提交Issue和Pull Request来帮助改进项目。

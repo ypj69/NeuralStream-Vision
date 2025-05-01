@@ -1,54 +1,68 @@
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
+import base64
+import tempfile
 import os
-from pathlib import Path
-import matplotlib as mpl
+import atexit
+import logging
+from typing import Optional
 
-def setup_chinese_font():
+# 这里使用精简版的思源黑体SC Regular的Base64编码
+# 注意：这个编码字符串通常很长，这里用占位符表示
+NOTO_SANS_SC_BASE64 = """
+[在此处放置精简版思源黑体的Base64编码，建议只包含常用字符的子集]
+"""
+
+_temp_font_file: Optional[str] = None
+
+def _cleanup_temp_font():
+    """清理临时字体文件"""
+    global _temp_font_file
+    if _temp_font_file and os.path.exists(_temp_font_file):
+        try:
+            os.remove(_temp_font_file)
+            _temp_font_file = None
+        except Exception as e:
+            logging.warning(f"清理临时字体文件失败: {e}")
+
+def setup_chinese_font() -> bool:
+    """
+    设置中文字体
+    
+    Returns:
+        bool: 字体设置是否成功
+    """
+    global _temp_font_file
+    
     try:
-        # 获取字体文件的绝对路径
-        current_dir = Path(__file__).parent
-        font_path = current_dir / 'assets' / 'SourceHanSansCN-Regular.otf'
+        # 解码字体数据
+        font_data = base64.b64decode(NOTO_SANS_SC_BASE64)
         
-        # 如果字体文件存在，则注册字体
-        if font_path.exists():
-            # 添加字体文件
-            font_prop = fm.FontProperties(fname=str(font_path))
-            
-            # 设置全局字体
-            plt.rcParams['font.family'] = ['sans-serif']
-            plt.rcParams['font.sans-serif'] = ['Source Han Sans CN']
-            plt.rcParams['axes.unicode_minus'] = False
-            
-            # 保存字体属性供后续使用
-            setup_chinese_font.font_prop = font_prop
-            
-            # 创建自定义绘图函数
-            def create_figure_with_chinese():
-                fig, ax = plt.subplots()
-                # 设置标题和标签的字体
-                ax.set_title(ax.get_title(), fontproperties=font_prop)
-                ax.set_xlabel(ax.get_xlabel(), fontproperties=font_prop)
-                ax.set_ylabel(ax.get_ylabel(), fontproperties=font_prop)
-                return fig, ax
-                
-            # 保存绘图函数供后续使用
-            setup_chinese_font.create_figure = create_figure_with_chinese
-            
-            print(f"成功加载中文字体文件: {font_path}")
-            return True
-        else:
-            print(f"错误：字体文件不存在: {font_path}")
-            print("请确保字体文件 'SourceHanSansCN-Regular.otf' 位于 assets 目录中")
-            return False
-            
+        # 创建临时字体文件
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".ttf") as tmp_font:
+            tmp_font.write(font_data)
+            _temp_font_file = tmp_font.name
+        
+        # 注册清理函数
+        atexit.register(_cleanup_temp_font)
+        
+        # 动态添加字体
+        fm.fontManager.addfont(_temp_font_file)
+        font_name = fm.FontProperties(fname=_temp_font_file).get_name()
+        
+        # 设置matplotlib的字体
+        plt.rcParams['font.family'] = font_name
+        plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
+        
+        return True
+        
     except Exception as e:
-        print(f"配置字体时出错: {str(e)}")
+        logging.error(f"设置中文字体失败: {e}")
+        _cleanup_temp_font()
         return False
 
-# 初始化默认值
-setup_chinese_font.font_prop = None
-setup_chinese_font.create_figure = plt.subplots
+# 在模块卸载时清理临时文件
+atexit.register(_cleanup_temp_font)
 
 def get_chinese_font():
     """获取中文字体属性"""
