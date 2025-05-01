@@ -10,6 +10,11 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from font_config_new import setup_chinese_font, get_chinese_font
+import matplotlib.font_manager as fm
+
+# 设置中文字体
+plt.rcParams['font.sans-serif'] = ['Noto Sans CJK JP', 'Noto Sans CJK SC', 'Noto Sans CJK TC']
+plt.rcParams['axes.unicode_minus'] = False # 解决负号显示问题
 
 # 设置中文字体
 if not setup_chinese_font():
