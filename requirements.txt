@@ -9,6 +9,6 @@ rqdatac==2.10.5
 requests==2.31.0
 streamlit==1.22.0
 seaborn==0.12.2
-python-fontconfig==0.5.1
 typing-extensions==4.5.0
 fonttools==4.38.0
+pillow>=9.5.0
