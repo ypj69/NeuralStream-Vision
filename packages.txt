@@ -1,5 +1,6 @@
 fonts-noto-cjk
+fonts-noto-cjk-extra
+fonts-wqy-microhei
+fonts-wqy-zenhei
 fontconfig
-pkg-configfonts-noto-cjk-extra  # 额外的 CJK 字体
-fonts-wqy-microhei    # 文泉驿微米黑
-fonts-wqy-zenhei      # 文泉驿正黑
+pkg-config
