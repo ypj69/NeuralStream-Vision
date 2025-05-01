@@ -11,6 +11,4 @@ streamlit==1.22.0
 seaborn==0.12.2
 python-fontconfig==0.5.1
 typing-extensions==4.5.0
-fonttools>=4.38.0
-# 添加系统字体支持
-matplotlib-font-manager>=0.9.0 
+fonttools==4.38.0
