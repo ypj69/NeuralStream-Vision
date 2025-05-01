@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
 import os
 import platform
+from pathlib import Path
 
 class ChineseFontManager:
     _instance = None
@@ -24,8 +25,42 @@ class ChineseFontManager:
         获取思源黑体文件的路径
         返回值：字体文件的完整路径
         """
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        return os.path.join(current_dir, 'assets', 'SourceHanSansCN-Regular.otf')
+        try:
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            font_path = os.path.join(current_dir, 'assets', 'SourceHanSansCN-Regular.otf')
+            
+            if not os.path.exists(font_path):
+                # 尝试在系统字体目录中查找
+                system_font_dirs = []
+                if platform.system() == 'Windows':
+                    system_font_dirs = [os.path.join(os.environ['WINDIR'], 'Fonts')]
+                elif platform.system() == 'Linux':
+                    system_font_dirs = [
+                        '/usr/share/fonts',
+                        '/usr/local/share/fonts',
+                        str(Path.home() / '.fonts'),
+                        str(Path.home() / '.local/share/fonts')
+                    ]
+                elif platform.system() == 'Darwin':  # macOS
+                    system_font_dirs = [
+                        '/System/Library/Fonts',
+                        '/Library/Fonts',
+                        str(Path.home() / 'Library/Fonts')
+                    ]
+                
+                # 在系统字体目录中查找思源黑体
+                for font_dir in system_font_dirs:
+                    if os.path.exists(font_dir):
+                        for root, _, files in os.walk(font_dir):
+                            for file in files:
+                                if ('SourceHanSans' in file or '思源黑体' in file) and file.endswith(('.ttf', '.otf')):
+                                    return os.path.join(root, file)
+            
+            return font_path
+            
+        except Exception as e:
+            print(f"查找字体文件时出错: {str(e)}")
+            return None
     
     def setup_chinese_font(self):
         """
@@ -35,22 +70,24 @@ class ChineseFontManager:
         try:
             # 获取字体文件路径
             font_path = self.get_font_path()
-            if not os.path.exists(font_path):
+            if not font_path or not os.path.exists(font_path):
                 print(f"找不到字体文件: {font_path}")
-                return False
-                
-            # 添加字体文件
-            self._font_prop = fm.FontProperties(fname=font_path)
-            
-            # 设置matplotlib的字体
-            plt.rcParams['font.family'] = ['sans-serif']
-            if platform.system() == 'Windows':
-                plt.rcParams['font.sans-serif'] = [self._font_prop.get_name()]
+                # 尝试使用系统默认中文字体
+                if platform.system() == 'Windows':
+                    plt.rcParams['font.sans-serif'] = ['Microsoft YaHei']
+                elif platform.system() == 'Linux':
+                    plt.rcParams['font.sans-serif'] = ['WenQuanYi Micro Hei']
+                elif platform.system() == 'Darwin':  # macOS
+                    plt.rcParams['font.sans-serif'] = ['PingFang SC']
+                else:
+                    return False
             else:
-                plt.rcParams['font.sans-serif'] = [self._font_prop.get_name(), 'DejaVu Sans']
-                
-            plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
+                # 添加字体文件
+                self._font_prop = fm.FontProperties(fname=font_path)
+                plt.rcParams['font.family'] = ['sans-serif']
+                plt.rcParams['font.sans-serif'] = [self._font_prop.get_name()]
             
+            plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
             return True
             
         except Exception as e:
