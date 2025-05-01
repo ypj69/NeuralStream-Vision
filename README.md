@@ -16,7 +16,7 @@ NeuralStream-Vision 是一个结合深度学习和大语言模型的智能股票
 - 支持多种技术指标和基本面指标
 - 使用Streamlit构建友好的Web界面
 - 结合大语言模型生成专业投资建议
-- 内置动态字体加载，确保图表中文正确显示
+- 使用思源黑体确保图表中文正确显示
 
 ## 安装说明
 
@@ -26,20 +26,25 @@ git clone https://github.com/ypj69/NeuralStream-Vision.git
 cd new_2
 ```
 
-2. 安装依赖
+2. 安装Python依赖
 ```bash
 pip install -r requirements.txt
 ```
 
-3. 配置API密钥
+3. 安装系统依赖（Linux环境）
+```bash
+sudo apt-get update
+sudo apt-get install -y fontconfig libfontconfig1 libfontconfig1-dev
+```
+
+4. 配置字体
+- 确保 `assets` 目录中包含 `SourceHanSansCN-Regular.otf` 字体文件
+- 系统会自动加载并配置字体，无需额外设置
+
+5. 配置API密钥
 - 在 `bmodel.py` 中配置通义千问API密钥
 - 在 `genData.py` 中配置Tushare API密钥
 - 在 `StockFundamentals.py` 中配置米筐API密钥
-
-4. 字体配置
-- 项目使用动态字体加载技术，无需手动配置字体文件
-- 字体数据已内置在代码中，自动处理中文显示
-- 支持在任何环境下正确显示中文，包括云端部署
 
 ## 使用方法
 
@@ -57,23 +62,38 @@ streamlit run app.py
 
 ## 项目结构
 ```
-FinRL_LLM/
+NeuralStream-Vision/
 ├── app.py                 # Streamlit Web应用主文件
 ├── bmodel.py              # 大语言模型相关功能
 ├── genData.py             # 数据获取和预处理
-├── new_mian.py            # 深度学习模型主文件
-├── StockFundamentals.py   # 基本面分析模块
-├── font_config.py         # 中文字体配置模块
-├── generate_font_base64.py # 字体Base64编码生成工具
-├── requirements.txt       # 项目依赖
-└── README.md             # 项目说明文档
+├── new_mian.py           # 深度学习模型主文件
+├── StockFundamentals.py  # 基本面分析模块
+├── font_config_new.py    # 中文字体配置模块
+├── assets/               # 资源文件目录
+│   └── SourceHanSansCN-Regular.otf  # 思源黑体字体文件
+├── requirements.txt      # Python依赖清单
+├── packages.txt         # 系统级依赖清单
+└── README.md            # 项目说明文档
 ```
+
+## 环境要求
+- Python 3.8+
+- CUDA支持（推荐，用于GPU加速）
+- 系统字体支持（fontconfig）
+- 思源黑体字体文件
+
+## 云端部署说明
+在 Streamlit Community Cloud 上部署时：
+1. 确保 `assets` 目录中包含字体文件
+2. 系统会自动安装 `requirements.txt` 中的Python依赖
+3. 系统会自动安装 `packages.txt` 中的系统依赖
+4. 字体配置会自动完成，无需手动干预
 
 ## 注意事项
 - 使用前请确保已正确配置所有必要的API密钥
 - 建议使用GPU进行模型训练和预测
 - 请遵守相关API的使用条款和限制
-- 系统会自动处理字体加载，无需手动配置字体文件
+- 如果遇到中文显示问题，请检查字体文件是否正确放置在 `assets` 目录中
 
 ## 贡献指南
 欢迎提交Issue和Pull Request来帮助改进项目。

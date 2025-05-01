@@ -2,17 +2,24 @@ import streamlit as st
 # 配置 Streamlit 页面必须是第一个 Streamlit 命令
 st.set_page_config(page_title="在线智能投资顾问", layout="wide")
 
+import base64
 import pandas as pd
 import torch
 import os
 from datetime import datetime
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
-from font_config import setup_chinese_font
+from font_config_new import setup_chinese_font, get_chinese_font
 
 # 设置中文字体
 if not setup_chinese_font():
     st.warning("注意：中文字体加载失败，图表中的中文可能无法正常显示。")
+
+# 全局设置所有图表使用中文字体
+plt.rcParams['axes.titlesize'] = 12
+plt.rcParams['axes.labelsize'] = 10
+plt.rcParams['xtick.labelsize'] = 8
+plt.rcParams['ytick.labelsize'] = 8
 
 from genData import get_stock_data, preprocess_data, StockDataset, rsi, williams_r, emv, sma, obv, volume_change_rate, amount_change_rate, volume_ma, amount_ma, price_diff_features
 from StockFundamentals import StockFundamentals
